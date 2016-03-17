@@ -1,0 +1,42 @@
+  
+  PrivacyRegulation:
+    type: object
+    description: |
+        A privacy rule that reflects a given privacy legislation as described
+        by a particular set of laws in a given jurisdiction.
+    required:
+        - legislation_sector
+    properties:
+      legislation_sector:
+        type: string
+        description: | 
+            The identifier of the set of legislation rules this rule
+            belongs to e.g. the UK data protection act.
+      Private Information Source:
+        type: string
+        description: The source of the private data
+      Private Information Type:
+        type: string
+        description: | 
+            The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities?
+        enum: 
+          - Identification
+          - Shared Identification
+          - Geographic
+          - Temporal
+          - Network and relationships
+          - Objects
+          - Behavioural
+          - Beliefs
+          - Measurements
+      Action:
+          type: string
+          description: The action being carried out on the data
+      Required Consent:
+        type: string
+        description: The type of consent that must be followed
+        enum:
+            - yes
+            - no
+            - opt-in
+            - opt-out

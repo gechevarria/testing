@@ -1,0 +1,27 @@
+type: object
+properties:
+  id:
+    type: string
+    description: Id of the offer.
+  osp_id:
+    type: string
+    description: Id of the OSP to which belongs the offer.
+  title:
+    type: string
+    description: Description of the offer.
+  description:
+    type: string
+    description: Description of the offer.
+  service_website:
+    type: string
+    description: Website of the offering.
+  is_enabled:
+    type: boolean
+    description: Indication whether the offer is enabled or not.
+  osp_callback_url:
+    type: string
+    description: Callback url.
+  expiration_date:
+    type: string
+    format: date-time
+    description: Date when the offer expires.

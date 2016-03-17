@@ -1,0 +1,8 @@
+type: object
+properties:
+  id:
+    type: string
+    description: Id of the offer.
+  status:
+    type: string
+    description: Description of the offer.

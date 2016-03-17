@@ -1,0 +1,19 @@
+type: object
+properties:
+  id:
+    type: string
+    description: Unique ID of the deal.
+  offer_id:
+    type: string
+    description: Unique ID of the offer.
+  user_id:
+    type: string
+    description: Unique ID of the user.
+  created_at:
+    type: string
+    format: date-time
+    description: Date when the deal was created (accepted).
+  canceled_at:
+    type: string
+    format: date-time
+    description: Date when the deal was canceled.

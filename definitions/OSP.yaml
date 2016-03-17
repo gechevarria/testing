@@ -1,0 +1,14 @@
+type: object
+properties:
+  id:
+    type: string
+    description: Id of the OSP.
+  name:
+    type: string
+    description: Name of the OSP.
+  description:
+    type: string
+    description: Description of the OSP.
+  osp_website:
+    type: string
+    description: Website of the OSP.

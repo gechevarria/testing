@@ -1,0 +1,17 @@
+type: object
+    properties:
+      id:
+        type: string
+        description: PrivacySetting Unique Identifier
+      description:
+        type: string
+        description: Description of the setting
+      name:
+        type: string
+        description: Short name of the setting(e.g. visibility)
+      setting_key:
+        type: string
+        description: Targeted setting key
+      setting_value:
+        type: string
+        description: Targeted setting value

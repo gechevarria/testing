@@ -1,0 +1,9 @@
+type: object
+properties:
+  id:
+    type: string
+    description: Id of the person.
+  dataUnitValuesPerAccessLevel:
+    type: array
+    items:
+      $ref: '../../definitions/DataUnitValuePerAccessLevel.yaml'

@@ -1,0 +1,8 @@
+type: object
+properties:
+  id:
+    type: string
+    description: Id of the access level.
+  description:
+    type: string
+    description: Description of the access level.
