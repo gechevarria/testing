@@ -1,45 +1,44 @@
-Request:
-  type: object
-  properties:
-    requestComponentId:
+type: object
+properties:
+  requestComponentId:
+    type: string
+    description: Id of the called component.
+  requestId:
+    type: string
+    description: Request id.
+  iPAddress:
+    type: string
+    description: IP Address from which comes the call.
+  mACAddress:
       type: string
-      description: Id of the called component.
-    requestId:
-      type: string
-      description: Request id.
-    iPAddress:
-      type: string
-      description: IP Address from which comes the call.
-    mACAddress:
-        type: string
-        description: MAC Address from which comes the call.
-    proxyId:
-      type: string
-      description: Proxy Id from which comes the call (could be google.com for example)
-    requesterId:
-      type: string
-      description: Id of the requester (typically the id of an OSP).
-    requestedURL:
-      type: string
-      description: Requested URL.
-    postedData:
-      type: string
-      description: Posted data wanted to be stored in the data base.
-    accessGranted:
-      type: boolean
-      description: Value indicating if the access is granted or not.
-    navigatorUserAgent:
-      type: string
-      description: Data describing the characteristics of the navigator from which is made the request.
-    isMobile:
-      type: boolean
-      description: Value indicating if the request comes from a mobile device or not.
-    mobileType:
-      type: string
-      description: If the request comes from a mobile device, the description of that device.
-    hashLogRM:
-      type: string
-      description: Hash value in order to provide a security plus.
-    hashLogDB:
-      type: string
-      description: Hash value in order to provide a security plus.
+      description: MAC Address from which comes the call.
+  proxyId:
+    type: string
+    description: Proxy Id from which comes the call (could be google.com for example)
+  requesterId:
+    type: string
+    description: Id of the requester (typically the id of an OSP).
+  requestedURL:
+    type: string
+    description: Requested URL.
+  postedData:
+    type: string
+    description: Posted data wanted to be stored in the data base.
+  accessGranted:
+    type: boolean
+    description: Value indicating if the access is granted or not.
+  navigatorUserAgent:
+    type: string
+    description: Data describing the characteristics of the navigator from which is made the request.
+  isMobile:
+    type: boolean
+    description: Value indicating if the request comes from a mobile device or not.
+  mobileType:
+    type: string
+    description: If the request comes from a mobile device, the description of that device.
+  hashLogRM:
+    type: string
+    description: Hash value in order to provide a security plus.
+  hashLogDB:
+    type: string
+    description: Hash value in order to provide a security plus.
