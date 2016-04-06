@@ -1,0 +1,40 @@
+DataUnit:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Id of the data unit.
+    description:
+      type: string
+      description: Description of the data unit.
+AccessLevel:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Id of the access level.
+    description:
+      type: string
+      description: Description of the access level.
+PersonalData:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Id of the person.
+    dataUnitValuesPerAccessLevel:
+      type: array
+      items:
+        $ref: 'https://raw.githubusercontent.com/OPERANDOH2020/op-api-doc/master/definitions/eu.operando.definitions.anonymization.yaml#/DataUnitValuePerAccessLevel'
+DataUnitValuePerAccessLevel:
+  type: object
+  properties:
+    dataUnitId:
+      type: string
+      description: Id of the data unit.
+    accessLevelId:
+      type: string
+      description: Id of the access level.
+    value:
+      type: string
+      description: Value of the data unit per the access level.
