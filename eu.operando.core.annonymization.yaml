@@ -1,0 +1,544 @@
+swagger: '2.0'
+info:
+  title: eu.operando.core.anonymization
+  description: Operando Anonymization module.
+  version: "1.0.0"
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+host: localhost:8080
+basePath: /operando/core/anonymization
+schemes:
+- http
+- https
+produces:
+- application/json
+################################################################################
+#                                   Tags                                       #
+################################################################################
+tags:
+  - name: PersonalData
+    description: |
+      Personal data that can be queried. It consists of a sum of data units.
+  - name: DataUnits
+    description: |
+      Unit of data belonging to personal data. (for exaple age, place of birth, marital status ...)
+  - name: AccessLevels
+    description: Levels of access applied to data units, so it's possible to establish accessing hierarchies depending on the requester.
+################################################################################
+#                                   Parameters                                 #
+################################################################################
+parameters:
+  dataunit-id:
+    name: dataunit-id
+    in: path
+    description: The dataunit identifier number
+    type: string
+    required: true
+  accessLevel-id:
+    name: accessLevel-id
+    in: path
+    description: The access level identifier number
+    type: string
+    required: true
+  country-id:
+    name: country-id
+    in: path
+    description: The country identifier number
+    type: string
+    required: true
+  person-id:
+    name: person-id
+    in: path
+    description: The person identifier number
+    type: string
+    required: true
+  requester-id:
+    name: requester-id
+    in: path
+    description: The requester identifier number
+    type: string
+    required: true
+################################################################################
+#                                   PATHs                                      #
+################################################################################
+paths:
+  /dataUnit:
+    post:      
+      summary: Creates a new data unit.
+      description: Creates a new data unit.
+      operationId: createDataUnit
+      tags:
+        - DataUnits
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - name: dataUnit
+        in: body
+        description: The Data Unit data in JSON format.
+        schema:
+          $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/DataUnit'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/DataUnit'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+    get:      
+      summary: Gets existing data units.
+      description: Gets existing data units.
+      operationId: getDataUnits
+      tags:
+        - DataUnits
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/DataUnit'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+  /dataUnit/{dataunit-id}:
+    parameters:
+      - $ref: '#/parameters/dataunit-id'      
+    get:
+      summary: Finds a data unit by ID.
+      description: Finds a data unit by ID.
+      operationId: getDataUnit
+      tags:
+        - DataUnits
+      produces:
+        - application/json
+      parameters:
+        - name: dataunit-id
+          in: path
+          description: ID of the data unit that needs to be fetched.
+          type: string
+          required: true
+      responses:
+        "200":
+          description: Successful operation
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+    put:      
+      summary: Updates an existing data unit.
+      description: Updates an existing data unit.
+      operationId: updateDataUnit
+      tags:
+        - DataUnits
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - name: dataUnit
+        in: body
+        description: The Data Unit data in JSON format.
+        schema:
+          $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/DataUnit'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/DataUnit'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+    delete:
+      summary: Deletes an existing data unit.
+      description: Deletes an existing data unit.
+      operationId: deleteDataUnit
+      tags:
+        - DataUnits
+      produces:
+        - application/json
+      parameters:
+        - name: dataunit-id
+          in: path
+          description: ID of the data unit that needs to be deleted
+          type: string
+          required: true
+      responses:
+        "200":
+          description: Successful operation
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+  /accessLevel:
+    post:      
+      summary: Creates a new access level.
+      description: Creates a new access level.
+      operationId: createAccessLevel
+      tags:
+        - AccessLevels
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - name: accessLevel
+        in: body
+        description: The Access Level data in JSON format.
+        schema:
+          $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+    get:      
+      summary: Gets existing access levels.
+      description: Gets existing access levels.
+      operationId: getAccessLevels
+      tags:
+        - AccessLevels
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+  /accessLevel/{accessLevel-id}:
+    parameters:
+      - $ref: '#/parameters/accessLevel-id'      
+    get:
+      summary: Finds a access level by ID.
+      description: Finds a access level by ID.
+      operationId: getAccessLevel
+      tags:
+        - AccessLevels
+      produces:
+        - application/json
+      parameters:
+        - name: accessLevel-id
+          in: path
+          description: ID of the access level that needs to be fetched.
+          type: string
+          required: true
+      responses:
+        "200":
+          description: Successful operation
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+    put:      
+      summary: Updates an existing access level.
+      description: Updates an existing access level.
+      operationId: updateAccessLevel
+      tags:
+        - AccessLevels
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - name: accessLevel
+        in: body
+        description: The Access Level data in JSON format.
+        schema:
+          $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+    delete:
+      summary: Deletes an existing access level.
+      description: Deletes an existing access level.
+      operationId: deleteAccessLevel
+      tags:
+        - AccessLevels
+      produces:
+        - application/json
+      parameters:
+        - name: accessLevel-id
+          in: path
+          description: ID of the access level that needs to be deleted
+          type: string
+          required: true
+      responses:
+        "200":
+          description: Successful operation
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+  /dataUnit/{dataunit-id}/accessLevels:
+    parameters:
+      - $ref: '#/parameters/dataunit-id'      
+    get:
+      summary: Gets the available access levels for a specific data unit.
+      description: Gets the available access levels for a specific data unit.
+      operationId: getAccessLevelsByDataUnit
+      tags:
+        - DataUnits
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation (list of access levels' associated with the data unit).
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+    post:
+      summary: Sets the available access levels for a specific data unit.
+      description: Sets the available access levels for a specific data unit.
+      operationId: setAccessLevelsByDataUnit
+      tags:
+        - DataUnits
+      produces:
+        - application/json
+      parameters:
+      - name: accesslevels
+        in: body
+        description: List of Access Levels.
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel'
+      responses:
+        "200":
+          description: Successful operation
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+    put:      
+      summary: Updates the available access levels for a specific data unit.
+      description: Updates the available access levels for a specific data unit.
+      operationId: updateAccessLevelsByDataUnit
+      tags:
+        - DataUnits
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - name: accesslevels
+        in: body
+        description: List of Access Levels.
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: "https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel"
+      responses:
+        "200":
+          description: Successful operation
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+  /dataUnit/{dataunit-id}/country/{country-id}/accessLevels:
+    parameters:
+      - $ref: '#/parameters/dataunit-id'
+      - $ref: '#/parameters/country-id'
+    get:
+      summary: Gets the granted access levels for a specific data unit according to countries laws.
+      description: Gets the granted access levels for a specific data unit according to countries laws.
+      operationId: getAccessLevelsByDataUnitAndCountry
+      tags:
+        - DataUnits
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation (list of access levels' associated with the data unit).
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+  /dataUnit/{dataunit-id}/pa/accessLevels:
+    parameters:
+      - $ref: '#/parameters/dataunit-id'
+    get:
+      summary: Gets the granted access levels for a specific data unit according the privacy authority.
+      description: Gets the granted access levels for a specific data unit according the privacy authority.
+      operationId: getAccessLevelsByDataUnitAndPA
+      tags:
+        - DataUnits
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation (list of access levels' associated with the privacy authority).
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+  /dataUnit/{dataunit-id}/person/{person-id}/requester/{requester-id}/accessLevel:
+    parameters:
+      - $ref: '#/parameters/dataunit-id'
+      - $ref: '#/parameters/person-id'
+      - $ref: '#/parameters/requester-id'
+    get:
+      summary: Gets the granted access level for a data unit related to a person and for a specific requester.
+      description: Gets the granted access level for a data unit related to a person and for a specific requester.
+      operationId: getAccessLevelsByDataUnitPersonAndRequester
+      tags:
+        - DataUnits
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation (list of access levels' associated with the data unit).
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+    post:
+      summary: Sets the granted access level for a data unit related to a person and for a specific requester.
+      description: Sets the granted access level for a data unit related to a person and for a specific requester.
+      operationId: addAccessLevelsByDataUnitByPersonAndRequester
+      tags:
+        - DataUnits
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: accessLevel
+          in: body
+          description: The access level data in JSON format.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel'
+          required: true
+      responses:
+        "200":
+          description: Successful operation.
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+    put:
+      summary: Updates the granted access level for a data unit related to a person and for a specific requester.
+      description: Updates the granted access level for a data unit related to a person and for a specific requester.
+      operationId: updateAccessLevelsByDataUnitByPersonAndRequester
+      tags:
+        - DataUnits
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: accessLevel
+          in: body
+          description: The access level data in JSON format.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/AccessLevel'
+          required: true
+      responses:
+        "200":
+          description: Successful operation.
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
+  /personaldata/{requester-id}:
+    parameters:
+      - $ref: '#/parameters/requester-id'
+    get:
+      summary: Gets individual or colective personal data by receiving as parameter a query especifiyng the data wanted to be recovered and the requester id.
+      description: Gets individual or colective personal data by receiving as parameter a query especifiyng the data wanted to be recovered and the requester id.
+      operationId: getPersonalData
+      tags:
+        - DataUnits
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: query
+          in: body
+          description: query encapsulating the set of data units and the personal ids of the people whose personal data is wanted to be received.
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Successful operation.
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/PersonalData'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/Error.yaml'
