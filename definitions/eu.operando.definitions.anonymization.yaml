@@ -25,7 +25,7 @@ PersonalData:
     dataUnitValuesPerAccessLevel:
       type: array
       items:
-        $ref: '"#/definitions/DataUnitValuePerAccessLevel'
+        $ref: '#/definitions/DataUnitValuePerAccessLevel'
 DataUnitValuePerAccessLevel:
   type: object
   properties:
