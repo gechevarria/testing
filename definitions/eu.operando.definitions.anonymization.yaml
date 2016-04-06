@@ -25,7 +25,7 @@ PersonalData:
     dataUnitValuesPerAccessLevel:
       type: array
       items:
-        $ref: 'https://raw.githubusercontent.com/OPERANDOH2020/op-api-doc/master/definitions/eu.operando.definitions.anonymization.yaml#/DataUnitValuePerAccessLevel'
+        $ref: 'https://raw.githubusercontent.com/gechevarria/testing/master/definitions/eu.operando.definitions.anonymization.yaml#/DataUnitValuePerAccessLevel'
 DataUnitValuePerAccessLevel:
   type: object
   properties:
