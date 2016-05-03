@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.47, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.49, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: operando_personaldatadb
 -- ------------------------------------------------------
--- Server version	5.5.47-0ubuntu0.14.04.1
+-- Server version	5.5.49-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -242,7 +242,7 @@ CREATE TABLE `genders` (
 
 LOCK TABLES `genders` WRITE;
 /*!40000 ALTER TABLE `genders` DISABLE KEYS */;
-INSERT INTO `genders` VALUES (1,'Male','*\r',NULL),(2,'Female','*\r',NULL);
+INSERT INTO `genders` VALUES (1,'Male','*\r','*'),(2,'Female','*\r','*');
 /*!40000 ALTER TABLE `genders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,7 +288,15 @@ CREATE TABLE `generic_personal_data` (
   KEY `generic_personal_data_birth_cities_fk` (`BIRTH_CITY_ID`),
   KEY `generic_personal_data_residende_cities_fk` (`RESIDENCE_CITY_ID`),
   KEY `generic_personal_data_marital_status_fk` (`MARITAL_STATUS_ID`),
-  KEY `generic_personal_data_salary_class_fk` (`SALARY_CLASS_ID`)
+  KEY `generic_personal_data_salary_class_fk` (`SALARY_CLASS_ID`),
+  CONSTRAINT `generic_personal_data_countries_FK` FOREIGN KEY (`NATIVE_COUNTRY_ID`) REFERENCES `countries` (`ID`),
+  CONSTRAINT `generic_personal_data_education_FK` FOREIGN KEY (`EDUCATION_ID`) REFERENCES `education` (`ID`),
+  CONSTRAINT `generic_personal_data_genders_FK` FOREIGN KEY (`GENDER_ID`) REFERENCES `genders` (`ID`),
+  CONSTRAINT `generic_personal_data_marital_status_FK` FOREIGN KEY (`MARITAL_STATUS_ID`) REFERENCES `marital_status` (`ID`),
+  CONSTRAINT `generic_personal_data_occupation_FK` FOREIGN KEY (`OCCUPATION_ID`) REFERENCES `occupation` (`ID`),
+  CONSTRAINT `generic_personal_data_race_FK` FOREIGN KEY (`RACE_ID`) REFERENCES `race` (`ID`),
+  CONSTRAINT `generic_personal_data_salary_class_FK` FOREIGN KEY (`SALARY_CLASS_ID`) REFERENCES `salary_class` (`ID`),
+  CONSTRAINT `generic_personal_data_work_class_FK` FOREIGN KEY (`WORK_CLASS_ID`) REFERENCES `work_class` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -298,7 +306,7 @@ CREATE TABLE `generic_personal_data` (
 
 LOCK TABLES `generic_personal_data` WRITE;
 /*!40000 ALTER TABLE `generic_personal_data` DISABLE KEYS */;
-INSERT INTO `generic_personal_data` VALUES (1,'Elliot','Smith','1111111111','555555555','john.smith@gmail.com','1111111111',1,1,'1971-01-01',1000000,48005,1,'Gran Vía','48005',1,1,2,1,1,1,1,1),(2,'John','Smith','1111111112','555555552','john.smith@gmail.com','1111111112',2,2,'1981-01-01',1000000,48005,1,'Gran Vía','48005',1,1,2,1,1,1,1,1),(3,'Ralph','Smith','1111111113','555555553','john.smith@gmail.com','1111111113',3,3,'1981-01-01',1000000,48005,1,'Gran Vía','48005',1,1,2,1,1,1,1,1),(4,'John','Smith','1111111114','555555554','john.smith@gmail.com','1111111114',4,4,'1981-01-01',1000000,48005,1,'Gran Vía','48005',1,1,2,1,1,1,1,1),(5,'Michael','Smith','1111111115','555555555','john.smith@gmail.com','11111111154',5,5,'1981-01-01',1000000,48005,1,'Gran Vía','48005',1,1,2,1,1,1,1,1);
+INSERT INTO `generic_personal_data` VALUES (1,'Elliot','Smith','1111111111','555555555','john.smith@gmail.com','1111111111',1,1,'1971-01-01',1000000,48005,1,'Gran Vía','48005',1,1,2,1,1,1,1,1),(2,'John','Smith','1111111112','555555552','john.smith@gmail.com','1111111112',1,2,'1981-01-01',1000000,48005,1,'Gran Vía','48005',1,1,2,1,1,1,1,1),(3,'Ralph','Smith','1111111113','555555553','john.smith@gmail.com','1111111113',1,3,'1981-01-01',1000000,48005,1,'Gran Vía','48005',1,1,2,1,1,1,1,1),(4,'John','Smith','1111111114','555555554','john.smith@gmail.com','1111111114',1,4,'1981-01-01',1000000,48005,1,'Gran Vía','48005',1,1,2,1,1,1,1,1),(5,'Michael','Smith','1111111115','555555555','john.smith@gmail.com','11111111154',1,5,'1981-01-01',1000000,48005,1,'Gran Vía','48005',1,1,2,1,1,1,1,1);
 /*!40000 ALTER TABLE `generic_personal_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -413,29 +421,23 @@ DROP TABLE IF EXISTS `operando_personaldata_view`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 /*!50001 CREATE TABLE `operando_personaldata_view` (
+  `OCCUPATION` tinyint NOT NULL,
+  `SALARY_CLASS` tinyint NOT NULL,
+  `GENDER` tinyint NOT NULL,
+  `EDUCATION` tinyint NOT NULL,
+  `COUNTRY` tinyint NOT NULL,
+  `RACE` tinyint NOT NULL,
   `EMAIL_ADDRESS` tinyint NOT NULL,
-  `WORK_CLASS_ID` tinyint NOT NULL,
-  `POLITICAL_TENDENCY_ID` tinyint NOT NULL,
-  `MARITAL_STATUS_ID` tinyint NOT NULL,
   `CELL_PHONE_NUMBER` tinyint NOT NULL,
-  `EDUCATION_ID` tinyint NOT NULL,
-  `RESIDENCE_CITY_ID` tinyint NOT NULL,
-  `RESIDENCE_CITY_CITIZENS_NUMBER` tinyint NOT NULL,
   `SURNAME` tinyint NOT NULL,
-  `RACE_ID` tinyint NOT NULL,
   `NUMBER_OF_CHILDREN` tinyint NOT NULL,
   `RESIDENCE_POST_CODE` tinyint NOT NULL,
   `NAME` tinyint NOT NULL,
-  `GENDER_ID` tinyint NOT NULL,
-  `PERSONAL_ID` tinyint NOT NULL,
   `IDENTIFICATION_NUMBER` tinyint NOT NULL,
   `DATE_OF_BIRTH` tinyint NOT NULL,
-  `SALARY_CLASS_ID` tinyint NOT NULL,
-  `NATIVE_COUNTRY_ID` tinyint NOT NULL,
-  `OCCUPATION_ID` tinyint NOT NULL,
-  `RESIDENCE_STREET` tinyint NOT NULL,
   `SSN` tinyint NOT NULL,
-  `BIRTH_CITY_ID` tinyint NOT NULL
+  `MARITAL_STATUS` tinyint NOT NULL,
+  `WORK_CLASS` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -682,7 +684,7 @@ CREATE TABLE `race` (
 
 LOCK TABLES `race` WRITE;
 /*!40000 ALTER TABLE `race` DISABLE KEYS */;
-INSERT INTO `race` VALUES (1,'White','*\r',NULL),(2,'Asian-Pac-Islander','*\r',NULL),(3,'Amer-Indian-Eskimo','*\r',NULL),(4,'Other','*\r',NULL),(5,'Black','*\r',NULL);
+INSERT INTO `race` VALUES (1,'White','*\r','*'),(2,'Asian-Pac-Islander','*\r','*'),(3,'Amer-Indian-Eskimo','*\r','*'),(4,'Other','*\r','*'),(5,'Black','*\r','*');
 /*!40000 ALTER TABLE `race` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -733,7 +735,7 @@ CREATE TABLE `salary_class` (
 
 LOCK TABLES `salary_class` WRITE;
 /*!40000 ALTER TABLE `salary_class` DISABLE KEYS */;
-INSERT INTO `salary_class` VALUES (1,'<=50K','*',NULL),(2,'>50K','*',NULL);
+INSERT INTO `salary_class` VALUES (1,'<=50K','*','*'),(2,'>50K','*','*');
 /*!40000 ALTER TABLE `salary_class` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -761,20 +763,6 @@ LOCK TABLES `sports` WRITE;
 /*!40000 ALTER TABLE `sports` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sports` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Temporary table structure for view `testing_view`
---
-
-DROP TABLE IF EXISTS `testing_view`;
-/*!50001 DROP VIEW IF EXISTS `testing_view`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `testing_view` (
-  `EMAIL_ADDRESS` tinyint NOT NULL,
-  `NAME` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `work_class`
@@ -820,26 +808,7 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `operando_personaldata_view` AS select `generic_personal_data`.`EMAIL_ADDRESS` AS `EMAIL_ADDRESS`,`generic_personal_data`.`WORK_CLASS_ID` AS `WORK_CLASS_ID`,`generic_personal_data`.`POLITICAL_TENDENCY_ID` AS `POLITICAL_TENDENCY_ID`,`generic_personal_data`.`MARITAL_STATUS_ID` AS `MARITAL_STATUS_ID`,`generic_personal_data`.`CELL_PHONE_NUMBER` AS `CELL_PHONE_NUMBER`,`generic_personal_data`.`EDUCATION_ID` AS `EDUCATION_ID`,`generic_personal_data`.`RESIDENCE_CITY_ID` AS `RESIDENCE_CITY_ID`,`generic_personal_data`.`RESIDENCE_CITY_CITIZENS_NUMBER` AS `RESIDENCE_CITY_CITIZENS_NUMBER`,`generic_personal_data`.`SURNAME` AS `SURNAME`,`generic_personal_data`.`RACE_ID` AS `RACE_ID`,`generic_personal_data`.`NUMBER_OF_CHILDREN` AS `NUMBER_OF_CHILDREN`,`generic_personal_data`.`RESIDENCE_POST_CODE` AS `RESIDENCE_POST_CODE`,`generic_personal_data`.`NAME` AS `NAME`,`generic_personal_data`.`GENDER_ID` AS `GENDER_ID`,`generic_personal_data`.`PERSONAL_ID` AS `PERSONAL_ID`,`generic_personal_data`.`IDENTIFICATION_NUMBER` AS `IDENTIFICATION_NUMBER`,`generic_personal_data`.`DATE_OF_BIRTH` AS `DATE_OF_BIRTH`,`generic_personal_data`.`SALARY_CLASS_ID` AS `SALARY_CLASS_ID`,`generic_personal_data`.`NATIVE_COUNTRY_ID` AS `NATIVE_COUNTRY_ID`,`generic_personal_data`.`OCCUPATION_ID` AS `OCCUPATION_ID`,`generic_personal_data`.`RESIDENCE_STREET` AS `RESIDENCE_STREET`,`generic_personal_data`.`SSN` AS `SSN`,`generic_personal_data`.`BIRTH_CITY_ID` AS `BIRTH_CITY_ID` from `generic_personal_data` */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `testing_view`
---
-
-/*!50001 DROP TABLE IF EXISTS `testing_view`*/;
-/*!50001 DROP VIEW IF EXISTS `testing_view`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `testing_view` AS select `generic_personal_data`.`EMAIL_ADDRESS` AS `EMAIL_ADDRESS`,`generic_personal_data`.`NAME` AS `NAME` from `generic_personal_data` */;
+/*!50001 VIEW `operando_personaldata_view` AS select distinct `occupation`.`DESCRIPTION_0` AS `OCCUPATION`,`salary_class`.`DESCRIPTION_0` AS `SALARY_CLASS`,`genders`.`DESCRIPTION_0` AS `GENDER`,`education`.`DESCRIPTION_0` AS `EDUCATION`,`countries`.`DESCRIPTION_0` AS `COUNTRY`,`race`.`DESCRIPTION_0` AS `RACE`,`generic_personal_data`.`EMAIL_ADDRESS` AS `EMAIL_ADDRESS`,`generic_personal_data`.`CELL_PHONE_NUMBER` AS `CELL_PHONE_NUMBER`,`generic_personal_data`.`SURNAME` AS `SURNAME`,`generic_personal_data`.`NUMBER_OF_CHILDREN` AS `NUMBER_OF_CHILDREN`,`generic_personal_data`.`RESIDENCE_POST_CODE` AS `RESIDENCE_POST_CODE`,`generic_personal_data`.`NAME` AS `NAME`,`generic_personal_data`.`IDENTIFICATION_NUMBER` AS `IDENTIFICATION_NUMBER`,`generic_personal_data`.`DATE_OF_BIRTH` AS `DATE_OF_BIRTH`,`generic_personal_data`.`SSN` AS `SSN`,`marital_status`.`DESCRIPTION_0` AS `MARITAL_STATUS`,`work_class`.`DESCRIPTION_0` AS `WORK_CLASS` from ((((((((`occupation` join `salary_class`) join `genders`) join `education`) join `countries`) join `race`) join `generic_personal_data` on(((`occupation`.`ID` = `generic_personal_data`.`OCCUPATION_ID`) and (`salary_class`.`ID` = `generic_personal_data`.`SALARY_CLASS_ID`) and (`genders`.`ID` = `generic_personal_data`.`GENDER_ID`) and (`education`.`ID` = `generic_personal_data`.`EDUCATION_ID`) and (`countries`.`ID` = `generic_personal_data`.`NATIVE_COUNTRY_ID`) and (`race`.`ID` = `generic_personal_data`.`RACE_ID`)))) join `marital_status` on((`marital_status`.`ID` = `generic_personal_data`.`MARITAL_STATUS_ID`))) join `work_class` on((`work_class`.`ID` = `generic_personal_data`.`WORK_CLASS_ID`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -853,4 +822,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-29  9:47:33
+-- Dump completed on 2016-05-03  9:32:33

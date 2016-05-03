@@ -85,15 +85,13 @@ public class Test {
 			System.out.println(e.toString());
 			e.printStackTrace();
 		}
-		
-		//String str = client.invokeAPI("swagger.json", "GET", new HashMap<String, String>(), null, new HashMap<String, String>(), null, "application/json", null, new String[0]);
+				
 	}
 	
 	@org.junit.Test
 	public void arxAnonymizationTest() throws ClassNotFoundException, SQLException, IOException {
 		// Load JDBC driver
-        Class.forName("com.mysql.jdbc.Driver");
-
+        Class.forName("com.mysql.jdbc.Driver");        
         // Configuration for JDBC source
         DataSource source = DataSource.createJDBCSource("jdbc:mysql://localhost:3306/operando_personaldatadb?user=root&password=root","operando_personaldata_view");    
         
@@ -102,20 +100,16 @@ public class Test {
         source.addColumn("IDENTIFICATION_NUMBER", DataType.STRING); 
         source.addColumn("CELL_PHONE_NUMBER", DataType.STRING);
         source.addColumn("EMAIL_ADDRESS", DataType.STRING);
-        source.addColumn("GENDER_ID", DataType.STRING); 
-        source.addColumn("RACE_ID", DataType.STRING);
-        source.addColumn("DATE_OF_BIRTH", DataType.STRING);
-        source.addColumn("BIRTH_CITY_ID", DataType.STRING); 
-        source.addColumn("RESIDENCE_CITY_ID", DataType.STRING);
-        source.addColumn("RESIDENCE_STREET", DataType.STRING);
-        source.addColumn("NATIVE_COUNTRY_ID", DataType.STRING); 
-        source.addColumn("MARITAL_STATUS_ID", DataType.STRING);
+        source.addColumn("GENDER", DataType.STRING); 
+        source.addColumn("RACE", DataType.STRING);
+        source.addColumn("DATE_OF_BIRTH", DataType.STRING);        
+        source.addColumn("COUNTRY", DataType.STRING); 
+        source.addColumn("MARITAL_STATUS", DataType.STRING);
         source.addColumn("NUMBER_OF_CHILDREN", DataType.INTEGER);
-        source.addColumn("EDUCATION_ID", DataType.STRING); 
-        source.addColumn("POLITICAL_TENDENCY_ID", DataType.STRING);
-        source.addColumn("WORK_CLASS_ID", DataType.STRING);
-        source.addColumn("OCCUPATION_ID", DataType.STRING);
-        source.addColumn("SALARY_CLASS_ID", DataType.STRING);
+        source.addColumn("EDUCATION", DataType.STRING);         
+        source.addColumn("WORK_CLASS", DataType.STRING);
+        source.addColumn("OCCUPATION", DataType.STRING);
+        source.addColumn("SALARY_CLASS", DataType.STRING);
         
         // This will load the MySQL driver, each DB has its own driver
  		Class.forName("com.mysql.jdbc.Driver");
@@ -125,7 +119,7 @@ public class Test {
         DefaultHierarchy NATIVE_COUNTRY = getHierarchyNativeCountry (connect);        
         DefaultHierarchy EDUCATION = getHierarchyEducation (connect);        
         DefaultHierarchy WORK_CLASS = getHierarchyWorkClass (connect);
-        DefaultHierarchy OCCUPATION = getHierarchyEducation (connect);
+        DefaultHierarchy OCCUPATION = getHierarchyOccupation (connect);
         DefaultHierarchy SALARY_CLASS = getHierarchySalaryClass (connect);
                 
         connect.close();
@@ -138,20 +132,16 @@ public class Test {
         data.getDefinition().setAttributeType("IDENTIFICATION_NUMBER", AttributeType.IDENTIFYING_ATTRIBUTE);
         data.getDefinition().setAttributeType("CELL_PHONE_NUMBER", AttributeType.IDENTIFYING_ATTRIBUTE);
         data.getDefinition().setAttributeType("EMAIL_ADDRESS", AttributeType.IDENTIFYING_ATTRIBUTE);
-        data.getDefinition().setAttributeType("GENDER_ID", AttributeType.INSENSITIVE_ATTRIBUTE);
-        data.getDefinition().setAttributeType("RACE_ID", AttributeType.INSENSITIVE_ATTRIBUTE);
-        data.getDefinition().setAttributeType("DATE_OF_BIRTH", AttributeType.IDENTIFYING_ATTRIBUTE);
-        data.getDefinition().setAttributeType("BIRTH_CITY_ID", AttributeType.INSENSITIVE_ATTRIBUTE);
-        data.getDefinition().setAttributeType("RESIDENCE_CITY_ID", AttributeType.INSENSITIVE_ATTRIBUTE);
-        data.getDefinition().setAttributeType("RESIDENCE_STREET", AttributeType.INSENSITIVE_ATTRIBUTE);
-        data.getDefinition().setAttributeType("NATIVE_COUNTRY_ID", NATIVE_COUNTRY); 
-        data.getDefinition().setAttributeType("MARITAL_STATUS_ID", AttributeType.INSENSITIVE_ATTRIBUTE);
+        data.getDefinition().setAttributeType("GENDER", AttributeType.INSENSITIVE_ATTRIBUTE);
+        data.getDefinition().setAttributeType("RACE", AttributeType.INSENSITIVE_ATTRIBUTE);
+        data.getDefinition().setAttributeType("DATE_OF_BIRTH", AttributeType.IDENTIFYING_ATTRIBUTE);        
+        data.getDefinition().setAttributeType("COUNTRY", NATIVE_COUNTRY); 
+        data.getDefinition().setAttributeType("MARITAL_STATUS", AttributeType.INSENSITIVE_ATTRIBUTE);
         data.getDefinition().setAttributeType("NUMBER_OF_CHILDREN", AttributeType.INSENSITIVE_ATTRIBUTE);
-        data.getDefinition().setAttributeType("EDUCATION_ID", EDUCATION);
-        data.getDefinition().setAttributeType("POLITICAL_TENDENCY_ID", AttributeType.INSENSITIVE_ATTRIBUTE);
-        data.getDefinition().setAttributeType("WORK_CLASS_ID", WORK_CLASS);
-        data.getDefinition().setAttributeType("OCCUPATION_ID", OCCUPATION);
-        data.getDefinition().setAttributeType("SALARY_CLASS_ID", SALARY_CLASS);                
+        data.getDefinition().setAttributeType("EDUCATION", EDUCATION);        
+        data.getDefinition().setAttributeType("WORK_CLASS", WORK_CLASS);
+        data.getDefinition().setAttributeType("OCCUPATION", OCCUPATION);
+        data.getDefinition().setAttributeType("SALARY_CLASS", SALARY_CLASS);                
         
         ARXAnonymizer anonymizer = new ARXAnonymizer();
         ARXConfiguration config = ARXConfiguration.create();
@@ -159,12 +149,29 @@ public class Test {
         ARXResult result = anonymizer.anonymize(data, config);
 
         Iterator<String[]> transformed = result.getOutput().iterator();
+        int i =0;
         while (transformed.hasNext()) {
             System.out.print("   ");
+            i++;
             System.out.println(Arrays.toString(transformed.next()));
-        }
+        }        
 	}
 	
+	private DefaultHierarchy getHierarchyOccupation(Connection connect) throws ClassNotFoundException, SQLException {
+		DefaultHierarchy occupationHierarchy = Hierarchy.create();
+		// Statements allow to issue SQL queries to the database
+		Statement statement = connect.createStatement();
+		// Result set get the result of the SQL query
+		resultSet = statement
+          .executeQuery("select DESCRIPTION_0,DESCRIPTION_1,DESCRIPTION_2 FROM occupation");
+		while (resultSet.next()){
+			occupationHierarchy.add(resultSet.getString("DESCRIPTION_0"), resultSet.getString("DESCRIPTION_1"), resultSet.getString("DESCRIPTION_2"));			
+		}
+		resultSet.close();
+		statement.close();		
+		return occupationHierarchy;
+	}
+
 	private DefaultHierarchy getHierarchySalaryClass(Connection connect) throws ClassNotFoundException, SQLException {
 		DefaultHierarchy salaryClassHierarchy = Hierarchy.create();
 		// Statements allow to issue SQL queries to the database
