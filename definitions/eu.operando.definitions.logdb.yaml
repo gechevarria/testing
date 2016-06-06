@@ -8,8 +8,8 @@ LogResponse:
       type: string
       description: Source type from which comes the request.
       enum:
-        - Process.
-        - Module.
+        - Process
+        - Module
     requesterId:
       type: string
       description: Id of the requester (e.g the id of an OSP).
@@ -42,8 +42,8 @@ LogRequest:
       type: string
       description: Source type from which comes the request.
       enum:
-        - Process.
-        - Module.
+        - Process
+        - Module
     requesterId:
       type: string
       description: Id of the requester (e.g the id of an OSP).
